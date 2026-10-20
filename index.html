@@ -1,0 +1,375 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' data:; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; script-src 'self' 'sha256-eijxndoDr5Nknz4Xv1B7BlbBloaL7t3nQmDmymqHtow='; base-uri 'self'; form-action 'none'; object-src 'none'">
+<meta name="referrer" content="strict-origin-when-cross-origin">
+<title>Naná Ideas · From Naná's imagination to the world</title>
+<meta name="description" content="Naná Ideas is a small game studio run by a dad and his daughter. Games born from Naná's imagination: drawing, aiming, play-fighting and dancing.">
+<meta property="og:title" content="Naná Ideas">
+<meta property="og:description" content="Games from Naná's imagination, made by a dad and his daughter.">
+<meta property="og:image" content="img/garabatos-1.webp">
+<link rel="icon" type="image/png" href="img/favicon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Nunito:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --navy:#1d2b5a; --navy-2:#12203f; --ink:#22284a;
+    --cream:#fff7e8; --paper:#ffffff; --sand:#ffe9bd;
+    --sun:#f5b53f; --coral:#ff7a59; --teal:#35b7c2; --leaf:#7cc24a; --pink:#f08fb5;
+    --muted:#6b7190;
+    --radius:22px;
+    --shadow:0 10px 30px rgba(29,43,90,.12);
+    --display:"Fredoka",system-ui,-apple-system,"Segoe UI",sans-serif;
+    --body:"Nunito",system-ui,-apple-system,"Segoe UI",sans-serif;
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{margin:0;font-family:var(--body);color:var(--ink);background:var(--cream);line-height:1.55;-webkit-font-smoothing:antialiased}
+  img{max-width:100%;display:block}
+  a{color:inherit}
+  h1,h2,h3{font-family:var(--display);line-height:1.1;margin:0;color:var(--navy)}
+  h2{font-size:clamp(1.8rem,3.6vw,2.6rem);font-weight:700}
+  p{margin:0 0 1em}
+  .wrap{width:min(1120px,100% - 32px);margin-inline:auto}
+  .pixel{image-rendering:pixelated;image-rendering:crisp-edges}
+
+  /* nav */
+  header{position:sticky;top:0;z-index:20;background:rgba(255,247,232,.85);backdrop-filter:blur(10px);border-bottom:1px solid rgba(29,43,90,.08)}
+  .nav{display:flex;align-items:center;justify-content:space-between;height:64px;gap:16px}
+  .brand{display:flex;align-items:center;gap:10px;text-decoration:none;font-family:var(--display);font-weight:700;color:var(--navy);font-size:1.15rem}
+  .brand img{height:38px;width:auto}
+  .nav ul{display:flex;gap:22px;list-style:none;margin:0;padding:0;font-weight:700;font-size:.95rem}
+  .nav ul a{text-decoration:none;color:var(--navy);opacity:.8}
+  .nav ul a:hover{opacity:1}
+  .lang{display:flex;border:2px solid var(--navy);border-radius:999px;overflow:hidden;font-family:var(--display);font-weight:600;font-size:.85rem}
+  .lang button{border:0;background:transparent;padding:6px 12px;cursor:pointer;color:var(--navy);font:inherit}
+  .lang button[aria-pressed="true"]{background:var(--navy);color:#fff}
+  @media (max-width:760px){.nav ul{display:none}}
+
+  /* hero */
+  .hero{position:relative;overflow:hidden;padding:72px 0 40px;background:
+     radial-gradient(900px 400px at 10% -10%, #ffe2a8 0%, transparent 60%),
+     radial-gradient(700px 400px at 100% 0%, #c9f0f3 0%, transparent 60%),
+     var(--cream)}
+  .hero .wrap{display:grid;grid-template-columns:1.1fr .9fr;gap:40px;align-items:center}
+  .hero h1{font-size:clamp(2.4rem,5.2vw,3.9rem);font-weight:700;letter-spacing:-.01em}
+  .hero h1 span{color:var(--coral)}
+  .hero .lead{font-size:1.2rem;max-width:34rem;color:#3a4166}
+  .cta{display:inline-flex;align-items:center;gap:10px;background:var(--navy);color:#fff;text-decoration:none;font-family:var(--display);font-weight:600;padding:14px 24px;border-radius:999px;box-shadow:var(--shadow);transition:transform .15s}
+  .cta:hover{transform:translateY(-2px)}
+  .cta.alt{background:#fff;color:var(--navy);border:2px solid var(--navy);box-shadow:none}
+  .hero-art{position:relative;min-height:340px;display:grid;place-items:center}
+  .hero-art .logo{width:min(300px,70%);margin:0 auto;filter:drop-shadow(0 16px 30px rgba(29,43,90,.18));animation:float 5s ease-in-out infinite}
+  @keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-10px)}}
+  @media (max-width:860px){.hero .wrap{grid-template-columns:1fr}.hero{padding-top:40px}.hero-art{min-height:330px;order:-1}}
+
+  /* sprite animation: strips of 4 frames, 160x192 each */
+  .sprite{width:160px;height:192px;background-repeat:no-repeat;background-size:640px 192px;animation:idle 1s steps(4) infinite;transform-origin:bottom center;image-rendering:pixelated}
+  .sprite.s80{width:120px;height:144px;background-size:480px 144px}
+  @keyframes idle{to{background-position:-640px 0}}
+  .sprite.s80{animation-name:idle80}
+  @keyframes idle80{to{background-position:-480px 0}}
+  @keyframes idle60{to{background-position:-384px 0}}
+  .sprite.flip{transform:scaleX(-1)}
+  @media (prefers-reduced-motion:reduce){.sprite{animation:none}.hero-art .logo{animation:none}}
+
+  /* sections */
+  section{padding:72px 0}
+  .kicker{font-family:var(--display);color:var(--coral);font-weight:600;letter-spacing:.08em;text-transform:uppercase;font-size:.8rem;margin-bottom:8px}
+  .sub{color:var(--muted);max-width:42rem;font-size:1.05rem}
+
+  .about{background:#fff}
+  .about .grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;margin-top:36px}
+  .card{background:var(--cream);border-radius:var(--radius);padding:26px}
+  .card .ico{width:120px;height:120px;margin:-6px 0 10px -8px;image-rendering:auto;filter:drop-shadow(0 6px 10px rgba(29,43,90,.15))}
+  .card h3{font-size:1.25rem;margin-bottom:8px}
+  .card p{margin:0;color:#3a4166}
+  @media (max-width:860px){.about .grid{grid-template-columns:1fr}}
+
+  /* games */
+  .games .list{display:grid;grid-template-columns:1fr;gap:32px;margin-top:36px}
+  .games .game{display:grid;grid-template-columns:1.25fr 1fr}
+  .games .game:nth-child(even){grid-template-columns:1fr 1.25fr}
+  .games .game:nth-child(even) .shots{order:2}
+  .shots{background:#0f1734;padding:14px}
+  .shots .shot{border-radius:12px;overflow:hidden}
+  .shots .shot img{transition:opacity .25s}
+  .thumbs{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-top:10px}
+  .th{border:2px solid transparent;border-radius:8px;overflow:hidden;padding:0;background:#000;cursor:pointer;opacity:.65;transition:opacity .15s,border-color .15s}
+  .th img{aspect-ratio:16/9;object-fit:cover;width:100%}
+  .th:hover,.th:focus-visible{opacity:1;outline:none}
+  .th.on{opacity:1;border-color:var(--sun)}
+  .games .game .body{align-self:center;padding:32px 36px}
+  @media (max-width:860px){.games .game,.games .game:nth-child(even){grid-template-columns:1fr}.games .game:nth-child(even) .shots{order:0}.games .game .body{padding:22px 24px 26px}}
+  .game{background:#fff;border-radius:var(--radius);overflow:hidden;box-shadow:var(--shadow);display:flex;flex-direction:column;transition:transform .2s}
+  .game:hover{transform:translateY(-4px)}
+  .game .shot{aspect-ratio:16/9;overflow:hidden;background:#111}
+  .game .shot img{width:100%;height:100%;object-fit:cover}
+  .game .body{padding:22px 24px 26px}
+  .game h3{font-size:1.45rem;margin-bottom:6px;display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+  .game .genre{color:var(--muted);font-weight:700;font-size:.9rem;margin-bottom:10px}
+  .game p{margin:0;color:#3a4166}
+
+  /* gallery */
+  .gallery{background:var(--navy);color:#fff}
+  .gallery h2,.gallery h3{color:#fff}
+  .gallery .sub{color:#c7cdea}
+  .stage{margin-top:36px;background:linear-gradient(#2a3a76,#1a2655);border-radius:var(--radius);padding:40px 20px 0;position:relative;overflow:hidden}
+  .stage::after{content:"";position:absolute;left:0;right:0;bottom:0;height:36px;background:#101a3c;border-top:4px solid #3c4d8f}
+  .stage .row{display:flex;justify-content:center;align-items:flex-end;flex-wrap:wrap;gap:6px 10px;position:relative;z-index:1}
+  .stage figure{margin:0;text-align:center}
+  .stage figure .sprite{margin-inline:auto}
+  .stage figure.star{position:relative;padding:0 18px}
+  .stage figure.star::before{content:"";position:absolute;left:50%;bottom:14px;transform:translateX(-50%);width:260px;height:300px;background:radial-gradient(ellipse at 50% 100%,rgba(245,181,63,.38),rgba(245,181,63,0) 70%);pointer-events:none}
+  .stage figure.star .sprite{position:relative;transform:scale(1.25);transform-origin:bottom center;filter:drop-shadow(0 0 14px rgba(245,181,63,.6))}
+  .stage figure.star figcaption{font-size:1.15rem;font-weight:700;color:#fff}
+  .stage figure:not(.star) .sprite{opacity:.92}
+  @media (max-width:760px){
+    .stage{padding:28px 8px 0}
+    .stage .row{gap:0 4px}
+    .stage figure.star{flex-basis:100%;order:-1;padding:0 0 6px}
+    .stage figure.star::before{width:220px;height:240px}
+    .stage figure:not(.star) .sprite{width:96px;height:115px;background-size:384px 115px;animation-name:idle60;transform:none;margin:0}
+    .stage figure:not(.star) figcaption{font-size:.8rem;margin:4px 0 22px}
+    .stage figure.star .sprite{transform:scale(1.1)}
+    .hero-art{min-height:0}
+    .hero-art .logo{width:200px}
+    .hero{padding-top:24px}
+  }
+  .stage figcaption{font-family:var(--display);font-size:.9rem;margin:6px 0 18px;color:#dfe4ff}
+  .doodle{display:grid;grid-template-columns:1fr 1fr;gap:28px;align-items:center;margin-top:40px}
+  .doodle img{width:min(320px,80%);margin:0 auto}
+  .doodle p{color:#dfe4ff;margin:0}
+  @media (max-width:760px){.doodle{grid-template-columns:1fr}}
+
+
+  /* contact */
+  .contact{background:var(--sand);text-align:center}
+  .contact .box{max-width:40rem;margin:0 auto}
+  .contact .cta{margin-top:10px}
+
+  footer{background:var(--navy-2);color:#aab3d9;padding:28px 0;font-size:.9rem}
+  footer .wrap{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
+  footer a{color:#fff;text-decoration:none}
+
+  /* i18n */
+  html[lang="es"] [data-l="en"],html[lang="en"] [data-l="es"]{display:none !important}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap nav">
+    <a class="brand" href="#top"><img src="img/logo.png" alt="Naná Ideas">Naná Ideas</a>
+    <ul>
+      <li><a href="#juegos"><span data-l="es">Juegos</span><span data-l="en">Games</span></a></li>
+      <li><a href="#galeria"><span data-l="es">Galería</span><span data-l="en">Gallery</span></a></li>
+      <li><a href="#contacto"><span data-l="es">Contacto</span><span data-l="en">Contact</span></a></li>
+    </ul>
+    <div class="lang" role="group" aria-label="Idioma / Language">
+      <button type="button" data-set="en" aria-pressed="true">EN</button>
+      <button type="button" data-set="es" aria-pressed="false">ES</button>
+    </div>
+  </div>
+</header>
+
+<main id="top">
+  <section class="hero">
+    <div class="wrap">
+      <div>
+        <p class="kicker"><span data-l="es">Un estudio de papá e hija</span><span data-l="en">A dad-and-daughter game studio</span></p>
+        <h1 data-l="es">De la imaginación de <span>Naná</span><br>para el mundo.</h1>
+        <h1 data-l="en">From <span>Naná's</span> imagination<br>to the world.</h1>
+        <p class="lead" data-l="es">Naná Ideas es el estudio de videojuegos de una niña y su papá. Diseñamos y construimos juntos, desde el primer prototipo hasta el juego terminado, por el gusto de imaginar mundos y jugarlos. Los juegos son nuestros, pero los compartimos con quien quiera jugar.</p>
+        <p class="lead" data-l="en">Naná Ideas is the video game studio of a kid and her dad. We design and build together, from the first prototype to the finished game, for the joy of imagining worlds and playing them. The games are ours, but we share them with anyone who wants to play.</p>
+        <p style="display:flex;gap:12px;flex-wrap:wrap">
+          <a class="cta" href="#juegos"><span data-l="es">Ver los juegos</span><span data-l="en">See the games</span> →</a>
+        </p>
+      </div>
+      <div class="hero-art">
+        <img class="logo" src="img/logo.png" alt="Logo de Naná Ideas">
+      </div>
+    </div>
+  </section>
+
+  <section class="about" id="estudio">
+    <div class="wrap">
+      <p class="kicker"><span data-l="es">El estudio</span><span data-l="en">The studio</span></p>
+      <h2 data-l="es">Una colaboración entre papá e hija</h2>
+      <h2 data-l="en">A collaboration between a dad and his daughter</h2>
+      <p class="sub" data-l="es">Diseñamos juntos y construimos juntos, desde el primer prototipo hasta el juego terminado. Más que un estudio, es un ejercicio creativo: un espacio para conectar, jugar y dejar volar la imaginación.</p>
+      <p class="sub" data-l="en">We design together and build together, from the first prototype to the finished game. More than a studio, it's a creative exercise: a space to connect, to play, and to let our imagination run free.</p>
+      <div class="grid">
+        <div class="card">
+          <img class="ico" src="img/icono-disenar.png" alt="Cuaderno con un dino dibujado a crayón" width="120" height="120" loading="lazy">
+          <h3 data-l="es">Diseñamos juntos</h3><h3 data-l="en">We design together</h3>
+          <p data-l="es">Las ideas nacen en la mesa, en el cuaderno de dibujo y en el piso de la sala. Naná imagina mundos, personajes y reglas; entre los dos las convertimos en un juego.</p>
+          <p data-l="en">Ideas are born at the table, in the sketchbook and on the living-room floor. Naná imagines worlds, characters and rules; together we turn them into a game.</p>
+        </div>
+        <div class="card">
+          <img class="ico" src="img/icono-construir.png" alt="Bloques de juguete y un martillito" width="120" height="120" loading="lazy">
+          <h3 data-l="es">Construimos juntos</h3><h3 data-l="en">We build together</h3>
+          <p data-l="es">Del prototipo que se arma en unos días al juego acabado con su arte, su música y sus niveles. Naná prueba cada versión y decide qué se queda y qué se va.</p>
+          <p data-l="en">From the prototype put together in a few days to the finished game with its art, music and levels. Naná plays every version and decides what stays and what goes.</p>
+        </div>
+        <div class="card">
+          <img class="ico" src="img/icono-conectar.png" alt="Fuerte de mantas con lucecitas y dos tazas de chocolate" width="120" height="120" loading="lazy">
+          <h3 data-l="es">Un espacio para conectar</h3><h3 data-l="en">A space to connect</h3>
+          <p data-l="es">No es un negocio ni una tarea: es nuestro tiempo juntos. Nada que asuste, nunca se pierde, y si algo sale mal, es gracioso o tierno y se vuelve a intentar.</p>
+          <p data-l="en">It's not a business or a chore: it's our time together. Nothing scary, you never lose, and when something goes wrong it's funny or sweet and you try again.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="games" id="juegos">
+    <div class="wrap">
+      <p class="kicker"><span data-l="es">Los juegos</span><span data-l="en">The games</span></p>
+      <h2 data-l="es">Cuatro juegos, cuatro maneras de jugar</h2>
+      <h2 data-l="en">Four games, four ways to play</h2>
+      <p class="sub" data-l="es">Dibujar, apuntar, pelear en broma y bailar. Todos corren en el navegador, con teclado, y nunca se pierde.</p>
+      <p class="sub" data-l="en">Draw, aim, play-fight and dance. All of them run in the browser, with a keyboard, and you never lose.</p>
+
+      <div class="list">
+        <article class="game">
+          <div class="shots">
+            <div class="shot"><img src="img/garabatos-1.webp" alt="Pantalla de inicio de Doodlings" loading="lazy" width="960" height="540"></div>
+            <div class="thumbs"><button type="button" class="th on" data-src="img/garabatos-1.webp" aria-label="Pantalla de inicio de Doodlings"><img src="img/garabatos-1-t.webp" alt="" loading="lazy"></button><button type="button" class="th" data-src="img/garabatos-2.webp" aria-label="Dibujando una criatura"><img src="img/garabatos-2-t.webp" alt="" loading="lazy"></button><button type="button" class="th" data-src="img/garabatos-3.webp" aria-label="Una criatura recién nacida con su nombre"><img src="img/garabatos-3-t.webp" alt="" loading="lazy"></button><button type="button" class="th" data-src="img/garabatos-4.webp" aria-label="Criaturas viviendo en la pradera"><img src="img/garabatos-4-t.webp" alt="" loading="lazy"></button></div>
+          </div>
+          <div class="body">
+            <h3 data-l="es">Garabatos</h3>
+            <h3 data-l="en">Garabatos · <em>Doodlings</em></h3>
+            <div class="genre" data-l="es">Dibujo · Criaturas · También en inglés y japonés como <em>Doodlings</em></div>
+            <div class="genre" data-l="en">Drawing · Creatures · Also in English and Japanese as <em>Doodlings</em></div>
+            <p data-l="es">Dibujas una criatura y la ves cobrar vida: camina, parpadea, tiene nombre y personalidad. Vive en praderas, lagos, arrecifes, cuevas y glaciares, de día y de noche. El primer juego del estudio y el más jugado en casa.</p>
+            <p data-l="en">Draw a creature and watch it come alive: it walks, blinks, gets a name and a personality. It lives in meadows, lakes, reefs, caves and glaciers, by day and by night. The studio's first game and the most played at home.</p>
+          </div>
+        </article>
+        <article class="game">
+          <div class="shots">
+            <div class="shot"><img src="img/revive-1.webp" alt="Pantalla de inicio de Naná Revive al Mundo" loading="lazy" width="960" height="540"></div>
+            <div class="thumbs"><button type="button" class="th on" data-src="img/revive-1.webp" aria-label="Pantalla de inicio de Naná Revive al Mundo"><img src="img/revive-1-t.webp" alt="" loading="lazy"></button><button type="button" class="th" data-src="img/revive-2.webp" aria-label="El valle recupera el color"><img src="img/revive-2-t.webp" alt="" loading="lazy"></button><button type="button" class="th" data-src="img/revive-3.webp" aria-label="Más plantas y animalitos en el valle"><img src="img/revive-3-t.webp" alt="" loading="lazy"></button><button type="button" class="th" data-src="img/revive-4.webp" aria-label="Menú de los dieciocho mundos"><img src="img/revive-4-t.webp" alt="" loading="lazy"></button></div>
+          </div>
+          <div class="body">
+            <h3 data-l="es">Naná Revive al Mundo</h3>
+            <h3 data-l="en">Naná Brings the World Back</h3>
+            <div class="genre" data-l="es">Puntería · Arco y flecha · Naturaleza</div>
+            <div class="genre" data-l="en">Aim & shoot · Bow and arrow · Nature</div>
+            <p data-l="es">El mundo se quedó sin color. Naná dispara semillas con su arco: donde cae cada una brota una planta, vuelve el color y sale un animalito a saludar. Dieciocho mundos: el valle, el río, el nevado, la playa, los géiseres…</p>
+            <p data-l="en">The world lost its colour. Naná shoots seeds with her bow: wherever one lands a plant sprouts, colour returns and a little animal pops out to say hi. Eighteen worlds: the valley, the river, the snowy peaks, the beach, the geysers…</p>
+          </div>
+        </article>
+        <article class="game">
+          <div class="shots">
+            <div class="shot"><img src="img/peluches-1.webp" alt="Pantalla de inicio de Naná vs los Peluches" loading="lazy" width="960" height="540"></div>
+            <div class="thumbs"><button type="button" class="th on" data-src="img/peluches-1.webp" aria-label="Pantalla de inicio de Naná vs los Peluches"><img src="img/peluches-1-t.webp" alt="" loading="lazy"></button><button type="button" class="th" data-src="img/peluches-2.webp" aria-label="Elegir personaje"><img src="img/peluches-2-t.webp" alt="" loading="lazy"></button><button type="button" class="th" data-src="img/peluches-3.webp" aria-label="La historia: los peluches se despiertan"><img src="img/peluches-3-t.webp" alt="" loading="lazy"></button><button type="button" class="th" data-src="img/peluches-4.webp" aria-label="Naná pelea con el osito en el cuarto"><img src="img/peluches-4-t.webp" alt="" loading="lazy"></button></div>
+          </div>
+          <div class="body">
+            <h3 data-l="es">Naná vs los Peluches</h3>
+            <h3 data-l="en">Naná vs the Plushies</h3>
+            <div class="genre" data-l="es">Beat-em-up · Peluches traviesos · 4 personajes</div>
+            <div class="genre" data-l="en">Beat-em-up · Mischievous plushies · 4 characters</div>
+            <p data-l="es">Es de noche y los peluches se despertaron con ganas de jugar rudo. Naná, Tadeo, Fátima y Papá recorren la casa, el jardín y el castillo del Rey Osote repartiendo cosquillas, patadas y abrazos.</p>
+            <p data-l="en">It's night and the plushies woke up ready to play rough. Naná, Tadeo, Fátima and Dad cross the house, the garden and King Bear's castle handing out tickles, kicks and hugs.</p>
+          </div>
+        </article>
+        <article class="game">
+          <div class="shots">
+            <div class="shot"><img src="img/fiesta-1.webp" alt="Menú de la Fiesta de los Peluches" loading="lazy" width="960" height="540"></div>
+            <div class="thumbs"><button type="button" class="th on" data-src="img/fiesta-1.webp" aria-label="Menú de la Fiesta de los Peluches"><img src="img/fiesta-1-t.webp" alt="" loading="lazy"></button><button type="button" class="th" data-src="img/fiesta-2.webp" aria-label="¡Ya! El osito muestra sus pasos"><img src="img/fiesta-2-t.webp" alt="" loading="lazy"></button><button type="button" class="th" data-src="img/fiesta-3.webp" aria-label="Tu turno de bailar"><img src="img/fiesta-3-t.webp" alt="" loading="lazy"></button><button type="button" class="th" data-src="img/fiesta-4.webp" aria-label="Otra vez: se repite la ronda"><img src="img/fiesta-4-t.webp" alt="" loading="lazy"></button></div>
+          </div>
+          <div class="body">
+            <h3 data-l="es">Naná y la Fiesta de los Peluches</h3>
+            <h3 data-l="en">Naná and the Plushie Party</h3>
+            <div class="genre" data-l="es">Ritmo · Baile · Llamada y respuesta</div>
+            <div class="genre" data-l="en">Rhythm · Dance · Call and response</div>
+            <p data-l="es">Esta vez los peluches quieren fiesta, no pelea. Cada uno baila sus pasos y Naná los repite al compás. Cuando le sale, el peluche se pone gorrito, se suma, y la música gana un instrumento. Al final, todos a dormir.</p>
+            <p data-l="en">This time the plushies want a party, not a fight. Each one dances its steps and Naná repeats them to the beat. When she nails it, the plushie puts on a party hat, joins in, and the music gains an instrument. Then everyone goes to sleep.</p>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section class="gallery" id="galeria">
+    <div class="wrap">
+      <p class="kicker"><span data-l="es">Galería</span><span data-l="en">Gallery</span></p>
+      <h2 data-l="es">El elenco</h2>
+      <h2 data-l="en">The cast</h2>
+      <p class="sub" data-l="es">Los personajes se comparten entre juegos: el mismo dino que pelea en <em>Naná vs los Peluches</em> baila en <em>La Fiesta</em>.</p>
+      <p class="sub" data-l="en">Characters are shared across games: the same dino that fights in <em>Naná vs the Plushies</em> dances in <em>The Party</em>.</p>
+
+      <div class="stage">
+        <div class="row">
+          <figure><div class="sprite s80" style="background-image:url(img/sp-tadeo.png)"></div><figcaption>Tadeo</figcaption></figure>
+          <figure><div class="sprite s80" style="background-image:url(img/sp-fatima.png)"></div><figcaption>Fátima</figcaption></figure>
+          <figure class="star"><div class="sprite" style="background-image:url(img/sp-nana.png)"></div><figcaption>Naná</figcaption></figure>
+          <figure><div class="sprite s80 flip" style="background-image:url(img/sp-papa.png)"></div><figcaption><span data-l="es">Papá</span><span data-l="en">Dad</span></figcaption></figure>
+          <figure><div class="sprite s80" style="background-image:url(img/sp-rey.png)"></div><figcaption><span data-l="es">Rey Osote</span><span data-l="en">King Bear</span></figcaption></figure>
+          <figure><div class="sprite s80" style="background-image:url(img/sp-dino.png)"></div><figcaption>Dino</figcaption></figure>
+          <figure><div class="sprite s80" style="background-image:url(img/sp-conejita.png)"></div><figcaption>Conejita</figcaption></figure>
+        </div>
+      </div>
+
+      <div class="doodle">
+        <img src="img/doodlings-art.webp" alt="Arte de Garabatos / Doodlings" loading="lazy">
+        <div>
+          <h3 style="font-size:1.5rem;margin-bottom:10px" data-l="es">Los garabatos también cuentan</h3>
+          <h3 style="font-size:1.5rem;margin-bottom:10px" data-l="en">Doodles count too</h3>
+          <p data-l="es">En Garabatos el arte lo pone quien juega: cada criatura dibujada se convierte en un personaje con voz y manías propias. Por eso los personajes más queridos del estudio no están en esta página: están en la pantalla de Naná.</p>
+          <p data-l="en">In Doodlings the art comes from the player: every drawn creature becomes a character with its own voice and quirks. That's why the studio's best-loved characters aren't on this page: they're on Naná's screen.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <section class="contact" id="contacto">
+    <div class="wrap box">
+      <h2 data-l="es">¿Quieres probar los juegos o contarnos una idea?</h2>
+      <h2 data-l="en">Want to try the games or share an idea?</h2>
+      <p class="sub" style="margin:12px auto 0" data-l="es">Escríbenos. Nos encanta saber qué le gustó a tu familia y qué no.</p>
+      <p class="sub" style="margin:12px auto 0" data-l="en">Drop us a line. We love hearing what your family liked, and what they didn't.</p>
+      <a class="cta" href="mailto:hola@nanaideas.com">hola@nanaideas.com</a>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <div>© <span id="y"></span> Naná Ideas</div>
+    <div><span data-l="es">Hecho en casa, con cariño y pixel art.</span><span data-l="en">Homemade, with love and pixel art.</span></div>
+  </div>
+</footer>
+
+<script>
+  (function(){
+    var html=document.documentElement, btns=document.querySelectorAll('.lang button');
+    function set(l){
+      html.lang=l;
+      btns.forEach(function(b){b.setAttribute('aria-pressed', b.dataset.set===l ? 'true':'false');});
+      document.title = l==='es' ? 'Naná Ideas · De la imaginación de Naná para el mundo' : 'Naná Ideas · From Naná\'s imagination to the world';
+      try{localStorage.setItem('ni-lang',l);}catch(e){}
+    }
+    var saved=null; try{saved=localStorage.getItem('ni-lang');}catch(e){}
+    var guess=(navigator.language||'en').slice(0,2)==='es' ? 'es':'en';
+    set(saved||guess);
+    btns.forEach(function(b){b.addEventListener('click',function(){set(b.dataset.set);});});
+    document.getElementById('y').textContent=new Date().getFullYear();
+    document.querySelectorAll('.shots').forEach(function(g){
+      var big=g.querySelector('.shot img'), ths=g.querySelectorAll('.th');
+      ths.forEach(function(t){t.addEventListener('click',function(){
+        if(t.classList.contains('on'))return;
+        ths.forEach(function(x){x.classList.remove('on');});
+        t.classList.add('on');
+        big.style.opacity=0;
+        var img=new Image(); img.onload=function(){big.src=t.dataset.src;big.alt=t.getAttribute('aria-label');big.style.opacity=1;}; img.src=t.dataset.src;
+      });});
+    });
+  })();
+</script>
+</body>
+</html>
