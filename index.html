@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' data:; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; script-src 'self' 'sha256-a8pLRIMLeALlqDUiIWRwpyCkf0TJf9ISgUyg3SREG+s='; base-uri 'self'; form-action 'none'; object-src 'none'">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' data:; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; script-src 'self' 'sha256-heCU9y37v0XzoGFB90zF6HHxA5zl54bmQWV7oFYX/B0='; base-uri 'self'; form-action 'none'; object-src 'none'">
 <meta name="referrer" content="strict-origin-when-cross-origin">
 <title>Naná Ideas · From Naná's imagination to the world</title>
 <meta name="description" content="Naná Ideas is a small game studio run by a dad and his daughter. Games born from Naná's imagination: drawing, aiming, play-fighting and dancing.">
@@ -28,6 +28,7 @@
     --footer:#12203f; --footer-text:#aab3d9; --btn-text:#fff;
     --radius:22px;
     --shadow:0 10px 30px rgba(29,43,90,.12);
+    --kicker:#b8432a;
     --display:"Fredoka",system-ui,-apple-system,"Segoe UI",sans-serif;
     --body:"Nunito",system-ui,-apple-system,"Segoe UI",sans-serif;
   }
@@ -59,7 +60,7 @@
   /* hero */
   .hero{position:relative;overflow:hidden;padding:88px 0 72px;min-height:calc(100svh - 64px);display:flex;align-items:center;background:var(--cream)}
   .hero .wrap{display:grid;grid-template-columns:1.1fr .9fr;gap:40px;align-items:center;position:relative;z-index:2}
-  .hero h1{font-size:clamp(2.6rem,5.6vw,4.4rem);font-weight:700;letter-spacing:-.02em;line-height:1.02}
+  .hero h1{font-size:clamp(2.6rem,5.6vw,4.4rem);font-weight:700;letter-spacing:-.02em;line-height:1.02;margin-bottom:28px}
   .hero h1 span{color:var(--coral);position:relative;display:inline-block}
   .hero h1 span::after{content:"";position:absolute;left:0;right:0;bottom:.04em;height:.18em;background:linear-gradient(90deg,var(--sun),var(--coral));border-radius:999px;opacity:.35;z-index:-1}
   /* parallax decor layers */
@@ -81,7 +82,8 @@
   @keyframes wheel{0%{transform:translateY(0);opacity:1}100%{transform:translateY(14px);opacity:0}}
   .hero .lead{font-size:1.2rem;max-width:34rem;color:var(--text2)}
   .cta{display:inline-flex;align-items:center;gap:10px;background:var(--navy);color:var(--btn-text);text-decoration:none;font-family:var(--display);font-weight:600;padding:14px 24px;border-radius:999px;box-shadow:var(--shadow);transition:transform .15s}
-  .cta:hover{transform:translateY(-2px)}
+  @media (hover:hover) and (pointer:fine){.cta:hover{transform:translateY(-2px)}}
+  .cta:active{transform:scale(.97)}
   .cta.alt{background:#fff;color:var(--navy);border:2px solid var(--navy);box-shadow:none}
   .hero-art{position:relative;min-height:380px;display:grid;place-items:center}
   .hero-art::before{content:"";position:absolute;width:min(420px,90%);aspect-ratio:1;border-radius:50%;background:conic-gradient(from 0deg,#ffe9bd,#c9f0f3,#ffd6cc,#e6f5d6,#ffe9bd);filter:blur(28px);opacity:.75;animation:spin 22s linear infinite}
@@ -103,19 +105,19 @@
 
   /* sections */
   section{padding:96px 0;position:relative}
-  .reveal{opacity:0;transform:translateY(28px);transition:opacity .7s cubic-bezier(.2,.7,.2,1),transform .7s cubic-bezier(.2,.7,.2,1)}
-  .reveal.in{opacity:1;transform:none}
-  .reveal[data-d="1"]{transition-delay:.1s}.reveal[data-d="2"]{transition-delay:.2s}.reveal[data-d="3"]{transition-delay:.3s}
+  html.js .reveal{opacity:0;transform:translateY(24px);transition:opacity .5s cubic-bezier(.23,1,.32,1),transform .5s cubic-bezier(.23,1,.32,1)}
+  html.js .reveal.in{opacity:1;transform:none}
+  .reveal[data-d="1"]{transition-delay:.07s}.reveal[data-d="2"]{transition-delay:.14s}.reveal[data-d="3"]{transition-delay:.21s}
   .ptx{will-change:transform}
-  @media (prefers-reduced-motion:reduce){.reveal{opacity:1;transform:none;transition:none}.ptx{transform:none!important}.blob,.px,.hero-art::before,.hero-art .ring,.scroll-hint{animation:none}}
-  .kicker{font-family:var(--display);color:var(--coral);font-weight:600;letter-spacing:.08em;text-transform:uppercase;font-size:.8rem;margin-bottom:8px}
+  @media (prefers-reduced-motion:reduce){html.js .reveal{opacity:1;transform:none;transition:none}.ptx{transform:none!important}.blob,.px,.hero-art::before,.hero-art .ring,.scroll-hint{animation:none}}
+  .kicker{font-family:var(--display);color:var(--kicker);font-weight:600;letter-spacing:.08em;text-transform:uppercase;font-size:.8rem;margin-bottom:8px}
   .sub{color:var(--muted);max-width:42rem;font-size:1.05rem}
 
   .about{background:var(--surface);border-radius:40px 40px 0 0;margin-top:-40px;z-index:2}
   .about .grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;margin-top:40px}
   .card{background:linear-gradient(160deg,var(--card1),var(--card2));border:1px solid var(--card-border);border-radius:28px;padding:28px;transition:transform .35s cubic-bezier(.2,.7,.2,1),box-shadow .35s;position:relative;overflow:hidden}
   .card::after{content:"";position:absolute;inset:auto -40px -40px auto;width:160px;height:160px;border-radius:50%;background:radial-gradient(circle,rgba(245,181,63,.25),transparent 70%)}
-  .card:hover{transform:translateY(-6px);box-shadow:0 24px 48px rgba(29,43,90,.12)}
+  @media (hover:hover) and (pointer:fine){.card:hover{transform:translateY(-6px);box-shadow:0 24px 48px rgba(29,43,90,.12)}}
   .card .ico{width:120px;height:120px;margin:-6px 0 10px -8px;image-rendering:auto;filter:drop-shadow(0 6px 10px rgba(29,43,90,.15))}
   .card h3{font-size:1.25rem;margin-bottom:8px}
   .card p{margin:0;color:var(--text2)}
@@ -132,12 +134,13 @@
   .thumbs{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-top:10px}
   .th{border:2px solid transparent;border-radius:8px;overflow:hidden;padding:0;background:#000;cursor:pointer;opacity:.65;transition:opacity .15s,border-color .15s}
   .th img{aspect-ratio:16/9;object-fit:cover;width:100%}
-  .th:hover,.th:focus-visible{opacity:1;outline:none}
+  .th:hover,.th:focus-visible{opacity:1}
+  .th:focus-visible{outline:3px solid var(--sun);outline-offset:2px}
   .th.on{opacity:1;border-color:var(--sun)}
   .games .game .body{align-self:center;padding:32px 36px}
   @media (max-width:860px){.games .game,.games .game:nth-child(even){grid-template-columns:1fr}.games .game:nth-child(even) .shots{order:0}.games .game .body{padding:22px 24px 26px}}
   .game{background:var(--surface);border-radius:28px;overflow:hidden;box-shadow:0 1px 0 rgba(29,43,90,.06),0 20px 50px rgba(29,43,90,.10);display:flex;flex-direction:column;transition:transform .35s cubic-bezier(.2,.7,.2,1),box-shadow .35s}
-  .game:hover{transform:translateY(-6px);box-shadow:0 1px 0 rgba(29,43,90,.06),0 30px 70px rgba(29,43,90,.16)}
+  @media (hover:hover) and (pointer:fine){.game:hover{transform:translateY(-6px);box-shadow:0 1px 0 rgba(29,43,90,.06),0 30px 70px rgba(29,43,90,.16)}}
   .games{background:linear-gradient(180deg,var(--surface) 0%,var(--cream) 18%)}
   .game .shot{aspect-ratio:16/9;overflow:hidden;background:#111}
   .game .shot img{width:100%;height:100%;object-fit:cover}
@@ -207,6 +210,7 @@
   html[data-theme="noche"] .cta{background:var(--sun);color:#141a36}
   html[data-theme="noche"] .hero h1 span{color:var(--sun)}
   html[data-theme="noche"] .kicker{color:var(--sun)}
+  .gallery .kicker{color:var(--coral)}
 
   html[data-theme="lavanda"]{
     --navy:#2e2459; --ink:#2e2459; --text2:#4b4472; --muted:#7c76a1; --coral:#ff6f91; --sun:#ffc857; --teal:#4fd1c5;
@@ -467,6 +471,7 @@
     try{var th=new URLSearchParams(location.search).get('theme'); if(th) document.documentElement.setAttribute('data-theme',th);}catch(e){}
 
     /* reveal on scroll */
+    document.documentElement.classList.add('js');
     var reduce=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     var rv=document.querySelectorAll('.reveal');
     if('IntersectionObserver' in window && !reduce){
