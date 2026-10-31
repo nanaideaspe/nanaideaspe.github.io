@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' data:; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; script-src 'self' 'sha256-jedQXs7WqtTtKNjWWwmg0ZuePVGJhav/YuCUQNzPe1k='; base-uri 'self'; form-action 'none'; object-src 'none'">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' data:; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; script-src 'self' 'sha256-2WnMPt+udEeZfQNWqSX8w4Rssa6H1w6UfufrfBctviA='; base-uri 'self'; form-action 'none'; object-src 'none'">
 <meta name="referrer" content="strict-origin-when-cross-origin">
 <title>Naná Ideas · From Naná's imagination to the world</title>
 <meta name="description" content="Naná Ideas is a small game studio run by a dad and his daughter. Games born from Naná's imagination: drawing, aiming, play-fighting and dancing.">
@@ -86,13 +86,9 @@
   @keyframes spin{to{transform:rotate(360deg)}}
   @media (max-width:860px){.hero .wrap{grid-template-columns:1fr}.hero{padding-top:40px;min-height:0}.hero-art{min-height:300px;order:-1}.hero .px{display:none}.scroll-hint{display:none}}
 
-  /* sprite animation: strips of 4 frames, 160x192 each */
-  .sprite{width:160px;height:192px;background-repeat:no-repeat;background-size:640px 192px;animation:idle 1s steps(4) infinite;transform-origin:bottom center;image-rendering:pixelated}
-  .sprite.s80{width:120px;height:144px;background-size:480px 144px}
-  @keyframes idle{to{background-position:-640px 0}}
-  .sprite.s80{animation-name:idle80}
-  @keyframes idle80{to{background-position:-480px 0}}
-  @keyframes idle60{to{background-position:-384px 0}}
+  /* sprite strips: frames of 160x192 side by side; --n frames, --dur per loop */
+  .sprite{width:160px;height:192px;background-repeat:no-repeat;background-size:auto 100%;animation:strip var(--dur,1s) steps(var(--n,4),jump-none) infinite;transform-origin:bottom center;image-rendering:pixelated}
+  @keyframes strip{from{background-position:0 0}to{background-position:100% 0}}
   .sprite.flip{transform:scaleX(-1)}
   @media (prefers-reduced-motion:reduce){.sprite{animation:none}.hero-art .badge{animation:none}}
 
@@ -121,9 +117,10 @@
   .games .game:nth-child(even) .shots{order:2}
   .shots{background:var(--shots1);padding:16px;position:relative}
   .shots .shot{border-radius:14px;overflow:hidden;position:relative}
-  .shots .shot img{transition:opacity .25s;transform:scale(1.12);will-change:transform}
+  .shots .shot img{transition:opacity .25s cubic-bezier(.23,1,.32,1),filter .25s cubic-bezier(.23,1,.32,1);transform:scale(1.12);will-change:transform}
   .thumbs{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-top:10px}
-  .th{border:2px solid transparent;border-radius:8px;overflow:hidden;padding:0;background:#000;cursor:pointer;opacity:.65;transition:opacity .15s,border-color .15s}
+  .th{border:2px solid transparent;border-radius:8px;overflow:hidden;padding:0;background:#000;cursor:pointer;opacity:.65;transition:opacity .15s,border-color .15s,transform .16s cubic-bezier(.23,1,.32,1)}
+  .th:active{transform:scale(.96)}
   .th img{aspect-ratio:16/9;object-fit:cover;width:100%}
   .th:hover,.th:focus-visible{opacity:1}
   .th:focus-visible{outline:3px solid var(--sun);outline-offset:2px}
@@ -141,34 +138,48 @@
   .game p{margin:0;color:var(--text2)}
 
   /* gallery */
-  .gallery{background:var(--gal);color:#fff;border-radius:48px 48px 0 0;overflow:hidden}
+  .gallery{background:var(--gal);color:#fff;border-radius:48px 48px 0 0;overflow:hidden;margin-top:-40px;z-index:1}
   .gallery .stars{position:absolute;inset:0;pointer-events:none;background-image:radial-gradient(#ffffff55 1px,transparent 1.5px),radial-gradient(#ffffff33 1px,transparent 1.5px);background-size:140px 140px,90px 90px;background-position:0 0,40px 60px;will-change:transform}
   .gallery .wrap{position:relative}
   .gallery h2,.gallery h3{color:#fff}
   .gallery .sub{color:var(--gal-text)}
   .stage{margin-top:36px;background:var(--stage1);border-radius:var(--radius);padding:40px 20px 0;position:relative;overflow:hidden}
   .stage::after{content:"";position:absolute;left:0;right:0;bottom:0;height:36px;background:var(--floor);border-top:4px solid var(--floor-line)}
-  .stage .row{display:flex;justify-content:center;align-items:flex-end;flex-wrap:wrap;gap:6px 10px;position:relative;z-index:1}
-  .stage figure{margin:0;text-align:center}
-  .stage figure .sprite{margin-inline:auto}
-  .stage figure.star{position:relative;padding:0 18px}
-  .stage figure.star::before{content:"";position:absolute;left:50%;bottom:14px;transform:translateX(-50%);width:260px;height:300px;background:radial-gradient(ellipse at 50% 100%,rgba(245,181,63,.38),rgba(245,181,63,0) 70%);pointer-events:none}
-  .stage figure.star .sprite{position:relative;transform:scale(1.25);transform-origin:bottom center;filter:drop-shadow(0 0 14px rgba(245,181,63,.6))}
-  .stage figure.star figcaption{font-size:1.15rem;font-weight:700;color:#fff}
-  .stage figure:not(.star) .sprite{opacity:.92}
+  .stage .row{display:flex;justify-content:center;align-items:flex-end;flex-wrap:wrap;gap:6px 0;position:relative;z-index:1}
+  .cast{width:136px;margin:0;padding:0;border:0;background:none;color:inherit;font:inherit;text-align:center;cursor:pointer;border-radius:16px;-webkit-tap-highlight-color:transparent}
+  .cast .sprite{display:block;margin-inline:-12px;pointer-events:none;transition:transform .16s cubic-bezier(.23,1,.32,1)}
+  .cast:active .sprite{transform:scale(.96)}
+  .cast:active .sprite.flip{transform:scaleX(-1) scale(.96)}
+  .cast:focus-visible{outline:3px solid var(--sun);outline-offset:-6px}
+  .cast .line{display:none}
+  .cast.star{position:relative;width:240px;margin:0 4px}
+  .cast.star .sprite{margin-inline:0}
+  .cast.star::before{content:"";position:absolute;left:50%;bottom:14px;transform:translateX(-50%);width:300px;height:340px;background:radial-gradient(ellipse 50% 100% at 50% 100%,rgba(245,181,63,.38),rgba(245,181,63,0) 85%);pointer-events:none}
+  .cast.star .sprite{position:relative;width:240px;height:288px;filter:drop-shadow(0 0 14px rgba(245,181,63,.6))}
+  .cast.star figcaption,.cast.star .cap{font-size:1.15rem;font-weight:700;color:#fff}
+  .stage .cap{display:block;font-family:var(--display);font-size:.95rem;margin:6px 0 18px;color:var(--cap)}
+  html.js .stage .cast.reveal{transition-delay:calc(var(--i,0) * 60ms)}
+  .say{min-height:3.2em;margin:20px auto 0;max-width:40rem;text-align:center;font-size:1.1rem;color:#fff}
+  .say b{font-family:var(--display);color:var(--sun)}
+  .say.pop{animation:say .2s cubic-bezier(.23,1,.32,1)}
+  @keyframes say{from{opacity:0;transform:translateY(6px)}}
+  .dance{display:flex;justify-content:center;margin-top:8px}
+  .dance .cta[aria-pressed="true"]{background:var(--coral);color:#141a36}
   @media (max-width:760px){
     .stage{padding:28px 8px 0}
-    .stage .row{gap:0 4px}
-    .stage figure.star{flex-basis:100%;order:-1;padding:0 0 6px}
-    .stage figure.star::before{width:220px;height:240px}
-    .stage figure:not(.star) .sprite{width:96px;height:115px;background-size:384px 115px;animation-name:idle60;transform:none;margin:0}
-    .stage figure:not(.star) figcaption{font-size:.8rem;margin:4px 0 22px}
-    .stage figure.star .sprite{transform:scale(1.1)}
+    .cast{width:92px}
+    .cast:not(.star) .sprite{margin-inline:-2px}
+    .cast.star{flex-basis:100%;width:auto;order:-1;margin:0}
+    .cast.star .sprite{margin-inline:auto}
+    .cast.star::before{width:220px;height:240px}
+    .cast.star .sprite{width:180px;height:216px}
+    .cast:not(.star) .sprite{width:96px;height:115px}
+    .stage .cast:not(.star) .cap{font-size:.8rem;margin:4px 0 22px}
+    .say{font-size:1rem}
     .hero-art{min-height:0}
     .hero-art .badge{width:240px}
     .hero{padding-top:24px}
   }
-  .stage figcaption{font-family:var(--display);font-size:.9rem;margin:6px 0 18px;color:var(--cap)}
   .doodle{display:grid;grid-template-columns:1fr 1fr;gap:28px;align-items:center;margin-top:40px}
   .doodle img{width:min(320px,80%);margin:0 auto}
   .doodle p{color:var(--cap);margin:0}
@@ -195,8 +206,8 @@
   <div class="wrap nav">
     <a class="brand" href="#top"><img src="img/logo.png" alt="Naná Ideas">Naná Ideas</a>
     <ul>
+      <li><a href="#elenco"><span data-l="es">Elenco</span><span data-l="en">Cast</span></a></li>
       <li><a href="#juegos"><span data-l="es">Juegos</span><span data-l="en">Games</span></a></li>
-      <li><a href="#galeria"><span data-l="es">Galería</span><span data-l="en">Gallery</span></a></li>
       <li><a href="#contacto"><span data-l="es">Contacto</span><span data-l="en">Contact</span></a></li>
     </ul>
     <div class="lang" role="group" aria-label="Idioma / Language">
@@ -230,6 +241,59 @@
       </div>
     </div>
     <div class="scroll-hint" aria-hidden="true"></div>
+  </section>
+
+  <section class="gallery" id="elenco">
+    <div class="stars ptx" data-depth="0.08" aria-hidden="true"></div>
+    <div class="wrap">
+      <h2 class="reveal" data-l="es">El elenco</h2>
+      <h2 class="reveal" data-l="en">The cast</h2>
+      <p class="sub" data-l="es">Los personajes se comparten entre juegos: el mismo dino que pelea en <em>Naná vs los Peluches</em> baila en <em>La Fiesta</em>.</p>
+      <p class="sub" data-l="en">Characters are shared across games: the same dino that fights in <em>Naná vs the Plushies</em> dances in <em>The Party</em>.</p>
+
+      <div class="stage">
+        <div class="row" role="group" aria-label="Elenco / Cast">
+          <button type="button" class="cast reveal" style="--i:0" data-act="img/act-tadeo.png" data-n="3" data-dur=".75s">
+            <span class="sprite" style="background-image:url(img/sp-tadeo.png)"></span>
+            <span class="cap">Tadeo</span>
+            <span class="line" data-l="es">Amigo de Naná. En <em>Naná vs los Peluches</em> hago crecer árboles.</span><span class="line" data-l="en">Naná's friend. In <em>Naná vs the Plushies</em> I make trees grow.</span>
+          </button>
+          <button type="button" class="cast reveal" style="--i:1" data-act="img/act-fatima.png" data-n="3" data-dur=".75s">
+            <span class="sprite" style="background-image:url(img/sp-fatima.png)"></span>
+            <span class="cap">Fátima</span>
+            <span class="line" data-l="es">Amiga de Naná. En <em>Naná vs los Peluches</em> tengo una nube de rayos.</span><span class="line" data-l="en">Naná's friend. In <em>Naná vs the Plushies</em> I have a lightning cloud.</span>
+          </button>
+          <button type="button" class="cast star reveal" style="--i:2" data-act="img/act-nana.png" data-n="4" data-dur=".8s">
+            <span class="sprite" style="background-image:url(img/sp-nana.png)"></span>
+            <span class="cap">Naná</span>
+            <span class="line" data-l="es">Salgo en casi todos los juegos. El arco es mi favorito, pero bailar también.</span><span class="line" data-l="en">I'm in almost every game. The bow is my favorite, but dancing is too.</span>
+          </button>
+          <button type="button" class="cast reveal" style="--i:3" data-act="img/act-papa.png" data-n="3" data-dur=".75s">
+            <span class="sprite flip" style="background-image:url(img/sp-papa.png)"></span>
+            <span class="cap"><span data-l="es">Papá</span><span data-l="en">Dad</span></span>
+            <span class="line" data-l="es">Personaje secreto. En <em>Naná vs los Peluches</em> aparezco solo con un código.</span><span class="line" data-l="en">Secret character. In <em>Naná vs the Plushies</em> I only show up with a code.</span>
+          </button>
+          <button type="button" class="cast reveal" style="--i:4" data-act="img/act-rey.png" data-n="2" data-dur=".5s">
+            <span class="sprite" style="background-image:url(img/sp-rey.png)"></span>
+            <span class="cap"><span data-l="es">Rey Osote</span><span data-l="en">King Bear</span></span>
+            <span class="line" data-l="es">Tengo un castillo en <em>Naná vs los Peluches</em> y una corona en <em>la Fiesta</em>.</span><span class="line" data-l="en">I have a castle in <em>Naná vs the Plushies</em> and a crown at <em>the Party</em>.</span>
+          </button>
+          <button type="button" class="cast reveal" style="--i:5" data-act="img/act-dino.png" data-n="3" data-dur=".75s">
+            <span class="sprite" style="background-image:url(img/sp-dino.png)"></span>
+            <span class="cap">Dino</span>
+            <span class="line" data-l="es">Peleo en broma en <em>Naná vs los Peluches</em> y bailo en <em>la Fiesta</em>.</span><span class="line" data-l="en">I play-fight in <em>Naná vs the Plushies</em> and dance at <em>the Party</em>.</span>
+          </button>
+          <button type="button" class="cast reveal" style="--i:6" data-act="img/act-conejita.png" data-n="3" data-dur=".75s">
+            <span class="sprite" style="background-image:url(img/sp-conejita.png)"></span>
+            <span class="cap"><span data-l="es">Conejita</span><span data-l="en">Bunny</span></span>
+            <span class="line" data-l="es">Hago travesuras en <em>Naná vs los Peluches</em> y bailo en <em>la Fiesta</em>.</span><span class="line" data-l="en">I get up to mischief in <em>Naná vs the Plushies</em> and dance at <em>the Party</em>.</span>
+          </button>
+        </div>
+      </div>
+      <p class="say" aria-live="polite"><span data-l="es">Toca a un personaje para conocerlo.</span><span data-l="en">Tap a character to meet them.</span></p>
+      <p class="dance"><button type="button" class="cta" aria-pressed="false"><span data-l="es">¡A bailar!</span><span data-l="en">Let's dance!</span></button></p>
+
+    </div>
   </section>
 
   <section class="about" id="estudio">
@@ -336,28 +400,6 @@
           </div>
         </article>
       </div>
-    </div>
-  </section>
-
-  <section class="gallery" id="galeria">
-    <div class="stars ptx" data-depth="0.08" aria-hidden="true"></div>
-    <div class="wrap">
-      <h2 class="reveal" data-l="es">El elenco</h2>
-      <h2 class="reveal" data-l="en">The cast</h2>
-      <p class="sub" data-l="es">Los personajes se comparten entre juegos: el mismo dino que pelea en <em>Naná vs los Peluches</em> baila en <em>La Fiesta</em>.</p>
-      <p class="sub" data-l="en">Characters are shared across games: the same dino that fights in <em>Naná vs the Plushies</em> dances in <em>The Party</em>.</p>
-
-      <div class="stage reveal">
-        <div class="row">
-          <figure><div class="sprite s80" style="background-image:url(img/sp-tadeo.png)"></div><figcaption>Tadeo</figcaption></figure>
-          <figure><div class="sprite s80" style="background-image:url(img/sp-fatima.png)"></div><figcaption>Fátima</figcaption></figure>
-          <figure class="star"><div class="sprite" style="background-image:url(img/sp-nana.png)"></div><figcaption>Naná</figcaption></figure>
-          <figure><div class="sprite s80 flip" style="background-image:url(img/sp-papa.png)"></div><figcaption><span data-l="es">Papá</span><span data-l="en">Dad</span></figcaption></figure>
-          <figure><div class="sprite s80" style="background-image:url(img/sp-rey.png)"></div><figcaption><span data-l="es">Rey Osote</span><span data-l="en">King Bear</span></figcaption></figure>
-          <figure><div class="sprite s80" style="background-image:url(img/sp-dino.png)"></div><figcaption>Dino</figcaption></figure>
-          <figure><div class="sprite s80" style="background-image:url(img/sp-conejita.png)"></div><figcaption>Conejita</figcaption></figure>
-        </div>
-      </div>
 
       <div class="doodle reveal">
         <img src="img/doodlings-art.webp" alt="Arte de Garabatos / Doodlings" loading="lazy">
@@ -370,6 +412,7 @@
       </div>
     </div>
   </section>
+
 
 
   <section class="contact" id="contacto">
@@ -402,7 +445,12 @@
     var saved=null; try{saved=localStorage.getItem('ni-lang');}catch(e){}
     var guess=(navigator.language||'en').slice(0,2)==='es' ? 'es':'en';
     set(saved||guess);
-    btns.forEach(function(b){b.addEventListener('click',function(){set(b.dataset.set);});});
+    btns.forEach(function(b){b.addEventListener('click',function(){
+      if(html.lang===b.dataset.set)return;
+      set(b.dataset.set);
+      if(!window.matchMedia('(prefers-reduced-motion: reduce)').matches && document.body.animate)
+        document.querySelector('main').animate([{opacity:.4},{opacity:1}],{duration:200,easing:'cubic-bezier(.23,1,.32,1)'});
+    });});
     document.getElementById('y').textContent=new Date().getFullYear();
 
     /* reveal on scroll */
@@ -446,9 +494,45 @@
         if(t.classList.contains('on'))return;
         ths.forEach(function(x){x.classList.remove('on');});
         t.classList.add('on');
-        big.style.opacity=0;
-        var img=new Image(); img.onload=function(){big.src=t.dataset.src;big.alt=t.getAttribute('aria-label');big.style.opacity=1;}; img.src=t.dataset.src;
+        big.style.opacity=.35; big.style.filter='blur(2px)';
+        var img=new Image(); img.onload=function(){big.src=t.dataset.src;big.alt=t.getAttribute('aria-label');big.style.opacity=1;big.style.filter='';}; img.src=t.dataset.src;
       });});
+    });
+
+    /* cast: tap a character to play its move; "dance" makes everyone loop it */
+    var cast=[].slice.call(document.querySelectorAll('.cast')), say=document.querySelector('.say'), danceBtn=document.querySelector('.dance .cta');
+    function act(c,loop){
+      if(reduce)return;
+      var sp=c.querySelector('.sprite');
+      sp.style.backgroundImage='url('+c.dataset.act+')';
+      sp.style.setProperty('--n',c.dataset.n); sp.style.setProperty('--dur',c.dataset.dur);
+      sp.style.animationIterationCount=loop?'infinite':'2';
+      sp.style.animationName='none'; void sp.offsetWidth; sp.style.animationName='';
+    }
+    function rest(c){
+      var sp=c.querySelector('.sprite');
+      ['background-image','--n','--dur','animation-iteration-count'].forEach(function(k){sp.style.removeProperty(k);});
+      sp.style.backgroundImage=c.dataset.idle;
+    }
+    cast.forEach(function(c,i){
+      var sp=c.querySelector('.sprite'); c.dataset.idle=sp.style.backgroundImage;
+      sp.addEventListener('animationend',function(){ if(danceBtn.getAttribute('aria-pressed')!=='true') rest(c); });
+      c.addEventListener('click',function(){
+        if(danceBtn.getAttribute('aria-pressed')!=='true') act(c,false);
+        var name=c.querySelector('.cap').innerHTML;
+        say.innerHTML='<b>'+name+'</b> · '+[].map.call(c.querySelectorAll('.line'),function(l){return l.outerHTML;}).join('');
+        [].forEach.call(say.querySelectorAll('.line'),function(l){l.className='';});
+        say.classList.remove('pop'); void say.offsetWidth; say.classList.add('pop');
+      });
+      c.addEventListener('keydown',function(e){
+        var d=e.key==='ArrowRight'?1:e.key==='ArrowLeft'?-1:0; if(!d)return;
+        e.preventDefault(); cast[(i+d+cast.length)%cast.length].focus();
+      });
+    });
+    danceBtn.addEventListener('click',function(){
+      var on=danceBtn.getAttribute('aria-pressed')!=='true';
+      danceBtn.setAttribute('aria-pressed',on?'true':'false');
+      cast.forEach(function(c){ if(on) act(c,true); else rest(c); });
     });
   })();
 </script>
