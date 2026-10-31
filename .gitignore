@@ -1,0 +1,10 @@
+img/raw/
+tools/out/
+_old/
+node_modules/
+README.md
+CLAUDE.md
+.DS_Store
+tools/
+package.json
+package-lock.json
